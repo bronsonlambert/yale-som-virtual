@@ -3,12 +3,12 @@ import * as THREE from 'three'
 // Lecture slides drawn on canvas, one deck per course (Yale SOM Fall 2026 MBA courses).
 // kind: 'title' | 'chart' | 'content'
 export const COURSES = {
-  mgt409: { code: 'MGT 409', name: 'AI Foundations for Managers', prof: 'Albus Dumbledore' },
+  mgt409: { code: 'MGT 409', name: 'AI Foundations for Managers', prof: 'Tauhid Zaman' },
   mgt404: { code: 'MGT 404', name: 'Basics of Economics', prof: 'Minerva McGonagall' },
-  mgt403: { code: 'MGT 403', name: 'Probability Modeling & Statistics', prof: 'Sybill Trelawney' },
+  mgt403: { code: 'MGT 403', name: 'Probability Modeling & Statistics', prof: 'Peter Schott' },
   mgt887: { code: 'MGT 887', name: 'Negotiations', prof: 'Horace Slughorn' },
-  mgt402: { code: 'MGT 402', name: 'Basics of Accounting', prof: 'Severus Snape' },
-  mgt538: { code: 'MGT 538', name: 'Mastering Influence & Persuasion', prof: 'Gilderoy Lockhart' },
+  mgt402: { code: 'MGT 402', name: 'Basics of Accounting', prof: 'Albus Dumbledore' },
+  mgt538: { code: 'MGT 538', name: 'Mastering Influence & Persuasion', prof: 'Sybill Trelawney' },
   mgt800: { code: 'MGT 800', name: 'Crisis Management in Tech', prof: 'Alastor Moody' },
   mgt541: { code: 'MGT 541', name: 'Corporate Finance', prof: 'Filius Flitwick' },
 }
@@ -33,8 +33,8 @@ const DECKS = {
     chart: 'supplydemand',
   },
   mgt403: {
-    title: ['The Normal Distribution', 'Predicting the future, responsibly'],
-    content: ["Bayes' Rule", ['P(A | B) = P(B | A) · P(A) / P(B)', 'Prior → evidence → posterior', 'Base rates matter more than you think', 'A crystal ball is not a confidence interval']],
+    title: ['The Normal Distribution', 'Feedback welcome. Problem sets mandatory.'],
+    content: ["Bayes' Rule", ['P(A | B) = P(B | A) · P(A) / P(B)', 'Prior → evidence → posterior', 'Base rates matter more than you think', 'Problem Set 9 (47 pages) is due Friday!']],
     chart: 'normal',
   },
   mgt887: {

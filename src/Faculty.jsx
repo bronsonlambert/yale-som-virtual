@@ -1,16 +1,22 @@
 import { useMemo } from 'react'
 import * as THREE from 'three'
 import Professor, { PROFESSORS } from './Professor.jsx'
+import Zaman from './Zaman.jsx'
+import Schott from './Schott.jsx'
+import { PROF_ID_BY_WHO } from './realProfs.js'
 import { DRUMS, LECTERNS } from './layout.js'
 
-// which Hogwarts professor teaches in which classroom (matches the slide decks)
+// who teaches in which classroom (matches the slide decks). Real, chat-able professors replaced
+// Hogwarts ones: Prof. Zaman teaches MGT 409 in EVANS 2200 per the course catalog (replacing Snape;
+// Dumbledore took over Accounting), and Prof. Schott teaches stats in 2210, next door (replacing
+// Lockhart; Trelawney took over Influence & Persuasion).
 export const ROOM_PROFESSOR = {
-  2400: 'dumbledore', // MGT 409 AI Foundations for Managers
+  2400: 'dumbledore', // MGT 402 Basics of Accounting
   2410: 'mcgonagall', // MGT 404 Basics of Economics
-  2420: 'trelawney', // MGT 403 Probability Modeling & Statistics
+  2420: 'trelawney', // MGT 538 Mastering Influence & Persuasion
   2430: 'slughorn', // MGT 887 Negotiations
-  2200: 'snape', // MGT 402 Basics of Accounting
-  2210: 'lockhart', // MGT 538 Mastering Influence & Persuasion
+  2200: 'zaman', // MGT 409 AI Foundations for Managers (real professor, chat-able)
+  2210: 'schott', // MGT 403 Probability Modeling & Statistics (real professor, chat-able)
   2220: 'moody', // MGT 800 Crisis Management in Tech
   2230: 'flitwick', // MGT 541 Corporate Finance
 }
@@ -33,7 +39,10 @@ function plaqueTex(name) {
   return t
 }
 
-export default function Faculty() {
+const NAMES = { ...Object.fromEntries(Object.entries(PROFESSORS).map(([k, v]) => [k, v.name])), zaman: 'Tauhid Zaman', schott: 'Peter Schott' }
+const REAL = { zaman: Zaman, schott: Schott }
+
+export default function Faculty({ chat, talkables, onTalk }) {
   const items = useMemo(
     () =>
       DRUMS.map((d, i) => {
@@ -44,7 +53,7 @@ export default function Faculty() {
           who,
           pos: [fc[0] + back[0] * 1.15 - t[0] * half * 0.3, 0, fc[1] + back[1] * 1.15 - t[1] * half * 0.3],
           rot,
-          plaque: { p: [lec.x + back[0] * 0.26, 0.85, lec.z + back[1] * 0.26], rot, mat: new THREE.MeshBasicMaterial({ map: plaqueTex(PROFESSORS[who].name) }) },
+          plaque: { p: [lec.x + back[0] * 0.26, 0.85, lec.z + back[1] * 0.26], rot, mat: new THREE.MeshBasicMaterial({ map: plaqueTex(NAMES[who]) }) },
         }
       }),
     [],
@@ -53,7 +62,15 @@ export default function Faculty() {
     <>
       {items.map((it, i) => (
         <group key={i}>
-          <Professor who={it.who} position={it.pos} rotation={it.rot} phase={i * 1.7} />
+          {REAL[it.who] ? (
+            (() => {
+              const Real = REAL[it.who]
+              const mine = chat?.id === PROF_ID_BY_WHO[it.who]
+              return <Real position={it.pos} rotation={it.rot} talking={mine} busy={mine && chat.busy} talkables={talkables} onTalk={onTalk} />
+            })()
+          ) : (
+            <Professor who={it.who} position={it.pos} rotation={it.rot} phase={i * 1.7} />
+          )}
           <mesh position={it.plaque.p} rotation={[0, it.plaque.rot, 0]} material={it.plaque.mat}>
             <planeGeometry args={[0.6, 0.15]} />
           </mesh>

@@ -15,3 +15,7 @@ data/private/
 # python
 .venv/
 __pycache__/
+
+# backend chat logs (visitor conversations) stay local
+backend/output/
+!.env.example

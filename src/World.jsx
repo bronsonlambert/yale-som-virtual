@@ -538,7 +538,7 @@ function Details({ M }) {
   )
 }
 
-export default function World() {
+export default function World({ chat, talkables, onTalk }) {
   const M = useMaterials()
   return (
     <>
@@ -554,7 +554,7 @@ export default function World() {
       <Stairs M={M} />
       <Details M={M} />
       <LabubuCrowd />
-      <Faculty />
+      <Faculty chat={chat} talkables={talkables} onTalk={onTalk} />
       <HandsomeDan />
     </>
   )
